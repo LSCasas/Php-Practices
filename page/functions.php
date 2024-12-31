@@ -1,12 +1,14 @@
-<?php 
-function dd($value){
+<?php
+function dd($value)
+{
     echo "<pre>";
-    var_dump($value); // Agregamos el punto y coma
+    var_dump($value);
     echo "</pre>";
 
     die();
-}  
+}
 
-function urlIs($value){
+function urlIs($value)
+{
     return $_SERVER['REQUEST_URI'] === $value;
 }

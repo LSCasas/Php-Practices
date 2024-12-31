@@ -2,11 +2,18 @@
 
 require 'functions.php';
 require 'Database.php';
-// Connect to the database and execute a query.
 
-
+// Create a new instance of the Database class
 $db = new Database();
-$posts = $db->query("select * from posts")->fetchAll(PDO::FETCH_ASSOC); // Corregido aquí: se agregó el paréntesis de apertura para la función query
+
+// Get the ID from the URL query parameter
+$id = $_GET['id'];
+
+// Query to get the post with the specified ID
+$query = "SELECT * FROM posts WHERE id = ?";
+
+// Execute the query and fetch the result
+$posts = $db->query($query, [$id])->fetch();
 
 // Show the results using 'dd()' (make sure it's defined in 'functions.php')
 dd($posts);

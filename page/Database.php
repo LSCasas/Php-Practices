@@ -1,6 +1,5 @@
 <?php
 
-
 class Database
 {
     public $connection;
@@ -14,16 +13,18 @@ class Database
         $password = DB_PASSWORD;
 
         // Create a new PDO instance to connect to the database
-        $this->connection = new PDO($dsn, $username, $password);
+        $this->connection = new PDO($dsn, $username, $password, [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
     }
 
-    public function query($query)
+    public function query($query, $params = [])
     {
         // Prepare and execute the query using the connection object
         $statement = $this->connection->prepare($query);
-        $statement->execute();
+        $statement->execute($params); // Remove extra brackets if $params is already an array
 
-        // Fetch all results as an associative array
+        // Return the statement to work with the results
         return $statement;
     }
 }
