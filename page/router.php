@@ -1,15 +1,10 @@
 <?php
 
-// Get the request URI.
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+$routes = require('routes.php');
 
-$routes = [
-    '/' => 'controllers/index.php',
-    '/about' => 'controllers/about.php',
-    '/notes' => 'controllers/notes.php',
-    '/note' => 'controllers/note.php',
-    '/contact' => 'controllers/contact.php',
-];
+
+
+
 
 // Function to route the request to the correct controller.
 function routeToController()
@@ -29,6 +24,9 @@ function abort($code)
     require "views/{$code}.php"; // Require the corresponding error view
     die(); // Stop the script execution
 }
+
+// Get the request URI.
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
 // Call the function to route the request to the correct controller.
 routeToController($uri, $routes);
