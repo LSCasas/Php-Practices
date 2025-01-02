@@ -4,20 +4,17 @@
 $db = new Database();
 
 $heading = 'Note';
-
-
-$note = $db->query('SELECT * FROM notes WHERE id = :id', [
-    'id' => $_GET['id']
-])->fetch();
-
-if (!$note) {
-    abort(404);
-}
-
 $currentUserId = 1;
 
-if ($note['user_id'] != $currentUserId) {
-    abort(403);
-}
+// First we execute the query
+$db->query('SELECT * FROM notes WHERE id = :id', [
+    'id' => $_GET['id']
+]);
+
+// Then we use findOrFail() on the Database instance
+$note = $db->findOrFail();
+
+authorize($note['user_id'] === $currentUserId);
+
 
 require "views/note.view.php";

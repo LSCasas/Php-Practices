@@ -21,16 +21,34 @@ class Database
 
     public function query($query, $params = [])
     {
-        // Prepare and execute the query using the connection object
-        $this->statement = $this->connection->prepare($query);
-        $this->statement->execute($params); // Remove extra brackets if $params is already an array
 
-        // Return the statement to work with the results
-        return $this->statement;  // Use $this->statement instead of $statement
+        $this->statement = $this->connection->prepare($query);
+        $this->statement->execute($params);
+
+
+        return $this;
     }
 
-    public function fetch()
+
+
+
+    public function find()
     {
         return $this->statement->fetch();
+    }
+
+    public function get()
+    {
+        return $this->statement->fetchAll();
+    }
+
+
+    public function findOrFail()
+    {
+        $result = $this->find();
+        if (! $result) {
+            abort(404);
+        }
+        return $result;
     }
 }
