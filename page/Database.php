@@ -3,6 +3,7 @@
 class Database
 {
     public $connection;
+    public $statement;
 
     public function __construct()
     {
@@ -21,10 +22,15 @@ class Database
     public function query($query, $params = [])
     {
         // Prepare and execute the query using the connection object
-        $statement = $this->connection->prepare($query);
-        $statement->execute($params); // Remove extra brackets if $params is already an array
+        $this->statement = $this->connection->prepare($query);
+        $this->statement->execute($params); // Remove extra brackets if $params is already an array
 
         // Return the statement to work with the results
-        return $statement;
+        return $this->statement;  // Use $this->statement instead of $statement
+    }
+
+    public function fetch()
+    {
+        return $this->statement->fetch();
     }
 }
