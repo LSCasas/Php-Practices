@@ -3,7 +3,6 @@
 // Create a new instance of the Database class
 $db = new Database();
 
-$heading = 'Note';
 $currentUserId = 1;
 
 // First we execute the query
@@ -17,4 +16,7 @@ $note = $db->findOrFail();
 authorize($note['user_id'] === $currentUserId);
 
 
-require "views/notes/show.view.php";
+view("notes/show.view.php", [
+    'heading' => 'Note',
+    'note' => $note
+]);
