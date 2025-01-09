@@ -1,5 +1,8 @@
 <?php
 
+use Core\Database;
+use Core\Validador;
+
 $db = new Database();
 
 

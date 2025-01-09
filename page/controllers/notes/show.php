@@ -1,5 +1,7 @@
 <?php
 
+use Core\Database;
+
 // Create a new instance of the Database class
 $db = new Database();
 
