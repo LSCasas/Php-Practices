@@ -4,7 +4,7 @@ use Core\Database;
 
 
 $db = new Database();
-$currentUserId = 25;
+$currentUserId = 1;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // First, execute the query
     $db->query('SELECT * FROM notes WHERE id = :id', [
