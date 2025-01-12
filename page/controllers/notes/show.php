@@ -2,23 +2,38 @@
 
 use Core\Database;
 
-// Create a new instance of the Database class
+
 $db = new Database();
+$currentUserId = 25;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // First, execute the query
+    $db->query('SELECT * FROM notes WHERE id = :id', [
+        'id' => $_GET['id']
+    ]);
 
-$currentUserId = 1;
+    // Then, use findOrFail() on the Database instance
+    $note = $db->findOrFail();
 
-// First we execute the query
-$db->query('SELECT * FROM notes WHERE id = :id', [
-    'id' => $_GET['id']
-]);
+    authorize($note['user_id'] === $currentUserId);
 
-// Then we use findOrFail() on the Database instance
-$note = $db->findOrFail();
+    // form was submitted. delete the current note.
+    $db->query('delete from notes where id = :id', [
+        'id' => $_GET['id']
+    ]);
 
-authorize($note['user_id'] === $currentUserId);
+    header('location: /notes');
+    exit();
+} else {
 
+    $db->query('SELECT * FROM notes WHERE id = :id', [
+        'id' => $_GET['id']
+    ]);
+    $note = $db->findOrFail();
 
-view("notes/show.view.php", [
-    'heading' => 'Note',
-    'note' => $note
-]);
+    authorize($note['user_id'] === $currentUserId);
+
+    view("notes/show.view.php", [
+        'heading' => 'Note',
+        'note' => $note
+    ]);
+}

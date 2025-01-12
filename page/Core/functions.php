@@ -1,6 +1,5 @@
 <?php
 
-
 function dd($value)
 {
     echo "<pre>";
@@ -15,7 +14,7 @@ function urlIs($value)
     return $_SERVER['REQUEST_URI'] === $value;
 }
 
-function authorize($condition, $status = Response::FORBIDDEN)
+function authorize($condition, $status = 403)
 {
     if (! $condition) {
         abort($status);
